@@ -257,7 +257,7 @@
     beep();
     alarmInterval = setInterval(() => {
       elapsed += 1.5;
-      if (elapsed >= 30) { stopAlarm(); return; }
+      if (elapsed >= 15) { stopAlarm(); return; }
       beep();
     }, 1500);
   }
@@ -269,20 +269,14 @@
   function beep() {
     try {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const comp = ctx.createDynamicsCompressor();
-      comp.threshold.value = -6;
-      comp.ratio.value = 20;
-      comp.connect(ctx.destination);
-
       [0, 0.45, 0.9].forEach(t => {
-        // 複数の周波数を重ねて音圧を上げる
-        [440, 880, 1320].forEach(freq => {
+        [440, 880].forEach(freq => {
           const o = ctx.createOscillator();
           const g = ctx.createGain();
-          o.connect(g); g.connect(comp);
+          o.connect(g); g.connect(ctx.destination);
           o.frequency.value = freq;
-          o.type = 'square';
-          g.gain.setValueAtTime(1.5, ctx.currentTime + t);
+          o.type = 'sine';
+          g.gain.setValueAtTime(1.2, ctx.currentTime + t);
           g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.4);
           o.start(ctx.currentTime + t);
           o.stop(ctx.currentTime + t + 0.4);
