@@ -176,7 +176,7 @@
   <div class="egg">🥚</div>
   <p>できあがり！</p>
   <small>ゆで卵が完成しました</small>
-  <button onclick="reset()" style="margin-top:12px; background:#f0a500; color:#1a1a2e;">もう一度</button>
+  <button onclick="window.close()" style="margin-top:12px; background:#f0a500; color:#1a1a2e;">完成</button>
 </div>
 
 <script>
@@ -257,7 +257,7 @@
     beep();
     alarmInterval = setInterval(() => {
       elapsed += 1.5;
-      if (elapsed >= 15) { stopAlarm(); return; }
+      if (elapsed >= 10) { stopAlarm(); return; }
       beep();
     }, 1500);
   }
